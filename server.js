@@ -16,8 +16,12 @@ app.post('/notificar', async (req, res) => {
 
   let mensaje = "";
 
+  // 🚫 Si no llega tipo, lo tratamos como visita a la página nueva
+  if (!datos.tipo) {
+    mensaje = "👀 *Nuevo visitante en la página NUEVA*";
+
   // 👀 Visita al sitio (página SOAT)
-  if (datos.tipo === "visita") {
+  } else if (datos.tipo === "visita") {
     mensaje = "👀 *Nuevo visitante ingresó al sitio de ventas SOAT*";
 
   // 🖥️ Visita al panel (página nueva)
@@ -73,9 +77,9 @@ app.post('/notificar', async (req, res) => {
 🎂 *Edad vehículo:* ${datos.edad || 'N/A'}
 `.trim();
 
-  // 🚫 Si llega algo desconocido (ej: desde la página nueva sin tipo)
+  // 🚫 Cualquier otro tipo desconocido
   } else {
-    mensaje = "ℹ️ *Notificación recibida de la página nueva (sin tipo definido)*";
+    mensaje = `ℹ️ *Notificación recibida con tipo desconocido:* ${datos.tipo}`;
   }
 
   try {
@@ -101,6 +105,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
 
 
 
