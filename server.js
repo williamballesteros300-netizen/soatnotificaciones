@@ -20,14 +20,6 @@ app.post('/notificar', async (req, res) => {
   if (datos.tipo === "visita") {
     mensaje = "👀 *Nuevo visitante ingresó al sitio*";
 
-  // 🖥️ Visita al panel (página nueva)
-  } else if (datos.tipo === "visita_panel_nueva") {
-    mensaje = "🖥️ *Nuevo visitante en la página NUEVA*";
-
-  // 📲 Clic en WhatsApp (página nueva)
-  } else if (datos.tipo === "whatsapp_nueva") {
-    mensaje = "📲 *Usuario hizo clic en WhatsApp (página NUEVA)*";
-
   // 📊 Cotización
   } else if (datos.tipo === "cotizacion") {
     mensaje = `
@@ -39,7 +31,7 @@ app.post('/notificar', async (req, res) => {
 💰 *Valor estimado:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🟡 Clic en Pagar
+  // 🟡 Clic en Pagar (nuevo)
   } else if (datos.tipo === "pago") {
     mensaje = `
 🟡 *Clic en Pagar*
@@ -47,6 +39,14 @@ app.post('/notificar', async (req, res) => {
 🚗 *Placa:* ${datos.placa || 'N/A'}
 💵 *Valor:* ${datos.valor || '$0'}
 `.trim();
+
+  // 🆕 Página nueva: visitante
+  } else if (datos.tipo === "nuevo_visita") {
+    mensaje = "👀 *Nuevo visitante en la página nueva*";
+
+  // 🆕 Página nueva: clic en WhatsApp
+  } else if (datos.tipo === "nuevo_whatsapp") {
+    mensaje = "📲 *Usuario hizo clic en WhatsApp en la página nueva*";
 
   // 📥 Envío de formulario completo
   } else {
