@@ -41,7 +41,7 @@ app.post('/notificar', async (req, res) => {
 `.trim();
 
   // 📥 Envío de formulario completo
-  } else if (datos.tipo === "solicitud") {
+  } else {
     mensaje = `
 📥 *Nueva solicitud de SOAT*:
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
@@ -64,17 +64,6 @@ app.post('/notificar', async (req, res) => {
 📌 *Subtipo:* ${datos.subtipo || 'N/A'}
 🎂 *Edad vehículo:* ${datos.edad || 'N/A'}
 `.trim();
-
-  // 🔔 NUEVAS NOTIFICACIONES PARA LA PÁGINA NUEVA
-  } else if (datos.tipo === "nuevo_visita") {
-    mensaje = "👀 *Nuevo visitante en la página nueva*";
-
-  } else if (datos.tipo === "nuevo_whatsapp") {
-    mensaje = "📲 *Usuario hizo clic en WhatsApp en la página nueva*";
-
-  // Cualquier otro caso
-  } else {
-    mensaje = "ℹ️ Notificación desconocida";
   }
 
   try {
@@ -96,10 +85,12 @@ app.get('/', (req, res) => {
   res.send('🟢 Servidor de notificación SOAT funcionando');
 });
 
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
 
 
 
