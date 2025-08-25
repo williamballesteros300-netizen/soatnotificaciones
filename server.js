@@ -16,22 +16,21 @@ app.post('/notificar', async (req, res) => {
 
   let mensaje = "";
 
-  // 👀 Visita al sitio (Página de ventas SOAT)
+  // 👀 Visita al sitio (página SOAT)
   if (datos.tipo === "visita") {
-    mensaje = "[VENTAS SOAT]\n👀 *Nuevo visitante ingresó al sitio*";
+    mensaje = "👀 *Nuevo visitante ingresó al sitio de ventas SOAT*";
 
-  // 🖥️ Visita al panel (Página nueva)
+  // 🖥️ Visita al panel (página nueva)
   } else if (datos.tipo === "visita_panel") {
-    mensaje = "[PÁGINA NUEVA]\n🖥️ *Nuevo acceso al panel de administración*";
+    mensaje = "🖥️ *Nuevo acceso al panel de administración (página nueva)*";
 
-  // 📲 Clic en WhatsApp (Página nueva)
+  // 📲 Clic en WhatsApp (página nueva)
   } else if (datos.tipo === "whatsapp") {
-    mensaje = "[PÁGINA NUEVA]\n📲 *Un usuario hizo clic en el botón de WhatsApp*";
+    mensaje = "📲 *Un usuario hizo clic en el botón de WhatsApp (página nueva)*";
 
-  // 📊 Cotización (Página de ventas SOAT)
+  // 📊 Cotización (SOAT)
   } else if (datos.tipo === "cotizacion") {
     mensaje = `
-[VENTAS SOAT]
 📊 *Nueva cotización de SOAT:*
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
 📄 *Clase:* ${datos.clase || 'N/A'}
@@ -40,20 +39,18 @@ app.post('/notificar', async (req, res) => {
 💰 *Valor estimado:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🟡 Clic en Pagar (Página de ventas SOAT)
+  // 🟡 Clic en Pagar (SOAT)
   } else if (datos.tipo === "pago") {
     mensaje = `
-[VENTAS SOAT]
-🟡 *Clic en Pagar*
+🟡 *Clic en Pagar (SOAT)*
 📧 *Correo:* ${datos.correo || 'N/A'}
 🚗 *Placa:* ${datos.placa || 'N/A'}
 💵 *Valor:* ${datos.valor || '$0'}
 `.trim();
 
-  // 📥 Envío de formulario completo (Página de ventas SOAT)
-  } else {
+  // 📥 Envío de formulario completo (SOAT)
+  } else if (datos.tipo === "solicitud") {
     mensaje = `
-[VENTAS SOAT]
 📥 *Nueva solicitud de SOAT*:
 🚗 *Placa:* ${datos.placa || 'No proporcionada'}
 💵 *Valor estimado:* ${datos.valor || '$0'}
@@ -75,6 +72,10 @@ app.post('/notificar', async (req, res) => {
 📌 *Subtipo:* ${datos.subtipo || 'N/A'}
 🎂 *Edad vehículo:* ${datos.edad || 'N/A'}
 `.trim();
+
+  // 🚫 Si llega algo desconocido (ej: desde la página nueva sin tipo)
+  } else {
+    mensaje = "ℹ️ *Notificación recibida de la página nueva (sin tipo definido)*";
   }
 
   try {
@@ -100,6 +101,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
 
 
 
