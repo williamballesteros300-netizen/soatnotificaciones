@@ -20,6 +20,14 @@ app.post('/notificar', async (req, res) => {
   if (datos.tipo === "visita") {
     mensaje = "👀 *Nuevo visitante ingresó al sitio*";
 
+  // 🖥️ Visita al panel (nuevo)
+  } else if (datos.tipo === "visita_panel") {
+    mensaje = "🖥️ *Nuevo acceso al panel de administración*";
+
+  // 📲 Clic en WhatsApp (nuevo)
+  } else if (datos.tipo === "whatsapp") {
+    mensaje = "📲 *Un usuario hizo clic en el botón de WhatsApp*";
+
   // 📊 Cotización
   } else if (datos.tipo === "cotizacion") {
     mensaje = `
@@ -31,7 +39,7 @@ app.post('/notificar', async (req, res) => {
 💰 *Valor estimado:* ${datos.valor || '$0'}
 `.trim();
 
-  // 🟡 Clic en Pagar (nuevo)
+  // 🟡 Clic en Pagar
   } else if (datos.tipo === "pago") {
     mensaje = `
 🟡 *Clic en Pagar*
@@ -85,7 +93,9 @@ app.get('/', (req, res) => {
   res.send('🟢 Servidor de notificación SOAT funcionando');
 });
 
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
+
